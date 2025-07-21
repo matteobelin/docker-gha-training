@@ -28,4 +28,4 @@ jobs:
           context: ./app
           file: ./app/Dockerfile
           push: true
-          tags: myDockerExam/myapp:1
+          tags: mydockerexam/myapp:1
