@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  myapp:
+    image: myapp:1
+    container_name: myapp_container_dockerProject
+    ports:
+      - "8080:5000"
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://myuser@db/mydatabase
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16.3  
+    container_name: postgres_container
+    restart: always
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_DB=mydatabase
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    secrets:
+      - db_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
