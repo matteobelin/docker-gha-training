@@ -28,4 +28,4 @@ jobs:
           context: ./app
           file: ./app/Dockerfile
           push: true
-          tags: mydockerexam/myapp:1
+          tags: nietsu/myapp:1
